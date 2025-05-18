@@ -9,6 +9,9 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+import org.junit.Test;
+import static org.junit.Assert.*;
+
 /**
  *
  * @author hcadavid
@@ -39,7 +42,7 @@ public class PiCalcTest {
 
         for (int start = 0; start < expected.length; start++) {
             for (int count = 0; count < expected.length - start; count++) {
-                byte[] digits = PiDigits.getDigits(start, count);
+                byte[] digits = PiDigits.getDigits(start, count, 1);
                 assertEquals(count, digits.length);
 
                 for (int i = 0; i < digits.length; i++) {
@@ -47,6 +50,27 @@ public class PiCalcTest {
                 }
             }
         }
+    }
+
+    @Test
+    public void testSingleThreadEqualsOriginal() {
+        byte[] original = PiDigits.getDigits(0, 50);
+        byte[] parallel = PiDigits.getDigits(0, 50, 1);
+        assertArrayEquals("Error con 1 hilo", original, parallel);
+    }
+
+    @Test
+    public void testTwoThreads() {
+        byte[] original = PiDigits.getDigits(0, 50);
+        byte[] parallel = PiDigits.getDigits(0, 50, 2);
+        assertArrayEquals("Error con 2 hilos", original, parallel);
+    }
+
+    @Test
+    public void testThreeThreadsUnevenSplit() {
+        byte[] original = PiDigits.getDigits(0, 50);
+        byte[] parallel = PiDigits.getDigits(0, 50, 3);
+        assertArrayEquals("Error con 3 hilos (división impar)", original, parallel);
     }
 
 }

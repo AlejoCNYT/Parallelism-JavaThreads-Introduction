@@ -10,12 +10,9 @@ public class PiDigits {
 
     private static int DigitsPerSum = 8;
     private static double Epsilon = 1e-17;
-    
+
     /**
-     * Returns a range of hexadecimal digits of pi.
-     * @param start The starting location of the range.
-     * @param count The number of digits to return
-     * @return An array containing the hexadecimal digits.
+     * Versión paralela: calcula los dígitos de pi con N hilos.
      */
     public static byte[] getDigits(int start, int count, int N) {
         if (start < 0 || count < 0 || N <= 0) {
@@ -47,12 +44,16 @@ public class PiDigits {
         return result;
     }
 
+    /**
+     * Versión secuencial/compatibilidad: calcula los dígitos usando 1 solo hilo.
+     */
+    public static byte[] getDigits(int start, int count) {
+        return getDigits(start, count, 1);
+    }
+
     /// <summary>
     /// Returns the sum of 16^(n - k)/(8 * k + m) from 0 to k.
     /// </summary>
-    /// <param name="m"></param>
-    /// <param name="n"></param>
-    /// <returns></returns>
     private static double sum(int m, int n) {
         double sum = 0;
         int d = m;
@@ -81,9 +82,6 @@ public class PiDigits {
     /// <summary>
     /// Return 16^p mod m.
     /// </summary>
-    /// <param name="p"></param>
-    /// <param name="m"></param>
-    /// <returns></returns>
     private static int hexExponentModulo(int p, int m) {
         int power = 1;
         while (power * 2 <= p) {
@@ -109,5 +107,4 @@ public class PiDigits {
 
         return result;
     }
-
 }
