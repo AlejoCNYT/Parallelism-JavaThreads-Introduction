@@ -15,6 +15,11 @@ Entregar: Fuentes y documento PDF con las respuestas.
 	2. Inicie los tres hilos con 'start()'.
 	3. Ejecute y revise la salida por pantalla. 
 	4. Cambie el incio con 'start()' por 'run()'. Cómo cambia la salida?, por qué?.
+<<<<<<< HEAD
+=======
+    
+ 	- La diferencia es que start()_ utiliza multihilo y paralelismo, mientras que run(), se usa sólamente para hacer pruebas.
+>>>>>>> 5042d342834489c8c281feb337c038fd344a8eec
 
 **Parte II Hilos Java**
 

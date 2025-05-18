@@ -9,6 +9,7 @@ package edu.eci.arsw.threads;
  *
  * @author hcadavid
  */
+<<<<<<< HEAD
 public class CountThread extends Thread
 {
     private int start;
@@ -27,4 +28,8 @@ public class CountThread extends Thread
             System.out.println(i);
         }
     }
+=======
+public class CountThread {
+    
+>>>>>>> 5042d342834489c8c281feb337c038fd344a8eec
 }

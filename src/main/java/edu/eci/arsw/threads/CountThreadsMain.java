@@ -10,6 +10,7 @@ package edu.eci.arsw.threads;
  * @author hcadavid
  */
 public class CountThreadsMain {
+<<<<<<< HEAD
     public static void main(String[] args) {
         Thread t1 = new CountThread(0, 99);
         Thread t2 = new CountThread(100, 199);
@@ -19,4 +20,11 @@ public class CountThreadsMain {
         t2.run();
         t3.run();
     }
+=======
+    
+    public static void main(String a[]){
+        
+    }
+    
+>>>>>>> 5042d342834489c8c281feb337c038fd344a8eec
 }
