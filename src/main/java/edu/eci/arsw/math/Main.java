@@ -13,10 +13,30 @@ import java.util.Arrays;
  */
 public class Main {
 
-    public static void main(String a[]) {
-        System.out.println(bytesToHex(PiDigits.getDigits(0, 10)));
-        System.out.println(bytesToHex(PiDigits.getDigits(1, 100)));
-        System.out.println(bytesToHex(PiDigits.getDigits(1, 1000000)));
+    public static void main(String[] args) {
+        int totalDigits = 100;
+        int threads = 4;
+        int digitsPerThread = totalDigits / threads;
+
+        byte[] result = new byte[totalDigits];
+        Thread[] workers = new Thread[threads];
+
+        for (int i = 0; i < threads; i++) {
+            int start = i * digitsPerThread;
+            workers[i] = new PiThread(start, digitsPerThread, result);
+            workers[i].start();
+        }
+
+        for (Thread t : workers) {
+            try {
+                t.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        System.out.println("Dígitos en hexadecimal:");
+        System.out.println(Main.bytesToHex(result));
     }
 
     private final static char[] hexArray = "0123456789ABCDEF".toCharArray();

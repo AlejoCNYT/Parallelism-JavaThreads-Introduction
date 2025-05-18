@@ -10,7 +10,6 @@ public class PiDigits {
 
     private static int DigitsPerSum = 8;
     private static double Epsilon = 1e-17;
-
     
     /**
      * Returns a range of hexadecimal digits of pi.
@@ -18,33 +17,34 @@ public class PiDigits {
      * @param count The number of digits to return
      * @return An array containing the hexadecimal digits.
      */
-    public static byte[] getDigits(int start, int count) {
-        if (start < 0) {
-            throw new RuntimeException("Invalid Interval");
+    public static byte[] getDigits(int start, int count, int N) {
+        if (start < 0 || count < 0 || N <= 0) {
+            throw new RuntimeException("Parámetros inválidos.");
         }
 
-        if (count < 0) {
-            throw new RuntimeException("Invalid Interval");
+        byte[] result = new byte[count];
+        PiThread[] threads = new PiThread[N];
+
+        int digitsPerThread = count / N;
+        int remainder = count % N;
+
+        for (int i = 0; i < N; i++) {
+            int currentStart = start + i * digitsPerThread;
+            int currentCount = (i == N - 1) ? digitsPerThread + remainder : digitsPerThread;
+
+            threads[i] = new PiThread(currentStart, currentCount, result);
+            threads[i].start();
         }
 
-        byte[] digits = new byte[count];
-        double sum = 0;
-
-        for (int i = 0; i < count; i++) {
-            if (i % DigitsPerSum == 0) {
-                sum = 4 * sum(1, start)
-                        - 2 * sum(4, start)
-                        - sum(5, start)
-                        - sum(6, start);
-
-                start += DigitsPerSum;
+        for (PiThread t : threads) {
+            try {
+                t.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-
-            sum = 16 * (sum - Math.floor(sum));
-            digits[i] = (byte) sum;
         }
 
-        return digits;
+        return result;
     }
 
     /// <summary>
