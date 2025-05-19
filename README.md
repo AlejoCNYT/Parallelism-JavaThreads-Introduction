@@ -67,7 +67,7 @@ Con lo anterior, y con los tiempos de ejecución dados, haga una gráfica de tie
 1. Según la [ley de Amdahls](https://www.pugetsystems.com/labs/articles/Estimating-CPU-Performance-using-Amdahls-Law-619/#WhatisAmdahlsLaw?):
 ![](img/ahmdahls.png), donde _S(n)_ es el mejoramiento teórico del desempeño, _P_ la fracción paralelizable del algoritmo, y _n_ el número de hilos, a mayor _n_, mayor debería ser dicha mejora. Por qué el mejor desempeño no se logra con los 500 hilos?, cómo se compara este desempeño cuando se usan 200?.
 	- En la medida que n → ∞, el límite superior de la mejora está dado por 1 / (1 - P) y, desaparece la fracción. Es decir, muchos hilos no optimizan si se trata de una práctica secuencial importante y pequeña. 
-	- Se observan 500 hilos de muy alto uso, de CPU (94.7%) → congestión, mucha memoria ocupada (157 MB heap usado), con una pequeña porción de hilos activos simultáneamente (limitado por CPU) y, gasto excesivo de 	cambio de contexto (context switching).
+	- Se observan 500 hilos de muy alto uso, de CPU (94.7%) → congestión, mucha memoria ocupada (157 MB heap usado), con una pequeña porción de hilos activos simultáneamente (limitado por CPU) y, gasto excesivo de 	cambio de contexto (context switching). Con 200 hilos el rendimiento disminuye y se sobrecargan los hilos.
 
 2. Cómo se comporta la solución usando tantos hilos de procesamiento como núcleos comparado con el resultado de usar el doble de éste?.
 	- La mejora de 4000 ms → 3000 ms no es lineal, sin embargo es notable. Esto se debe a que JVM o el OS podrían hacer uso del _hyperthreading_ (dos hilos por núcleo). Pero, ya empieza a notarse un rendimiento 		marginal decreciente.
