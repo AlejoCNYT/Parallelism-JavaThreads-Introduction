@@ -54,17 +54,22 @@ Al iniciar el programa ejecute el monitor jVisualVM, y a medida que corran las p
 
 Con lo anterior, y con los tiempos de ejecución dados, haga una gráfica de tiempo de solución vs. número de hilos. Analice y plantee hipótesis con su compañero para las siguientes preguntas (puede tener en cuenta lo reportado por jVisualVM):
 
+![output](https://github.com/user-attachments/assets/de4bdf70-d065-450b-bd43-aaca413be204)
 
+| Hilos | Tiempo (ms) | Observación                                                        |
+|-------|-------------|---------------------------------------------------------------------|
+| 1     | 18000       | Muy alto. Solo un hilo procesa todo.                               |
+| 8     | 4000        | Gran mejora, corresponde a número de núcleos físicos.              |
+| 16    | 3000        | Aún mejor, aprovechamiento de *hyperthreading*.                    |
+| 200   | 3200        | Empieza a empeorar por sobrecarga de *context switching*.          |
+| 500   | 3500        | Peor que con 16 y 200 hilos: demasiada fragmentación y sobrecarga. |
 
 1. Según la [ley de Amdahls](https://www.pugetsystems.com/labs/articles/Estimating-CPU-Performance-using-Amdahls-Law-619/#WhatisAmdahlsLaw?):
-
-	![](img/ahmdahls.png), donde _S(n)_ es el mejoramiento teórico del desempeño, _P_ la fracción paralelizable del algoritmo, y _n_ el número de hilos, a mayor _n_, mayor debería ser dicha mejora. Por qué el mejor desempeño no se logra con los 500 hilos?, cómo se compara este desempeño cuando se usan 200?. 
+	![](img/ahmdahls.png), donde _S(n)_ es el mejoramiento teórico del desempeño, _P_ la fracción paralelizable del algoritmo, y _n_ el número de hilos, a mayor _n_, mayor debería ser dicha mejora. Por qué el mejor desempeño no se logra con los 500 hilos?, cómo se compara este desempeño cuando se usan 200?.
 
 2. Cómo se comporta la solución usando tantos hilos de procesamiento como núcleos comparado con el resultado de usar el doble de éste?.
 
 3. De acuerdo con lo anterior, si para este problema en lugar de 500 hilos en una sola CPU se pudiera usar 1 hilo en cada una de 500 máquinas hipotéticas, la ley de Amdahls se aplicaría mejor?. Si en lugar de esto se usaran c hilos en 500/c máquinas distribuidas (siendo c es el número de núcleos de dichas máquinas), se mejoraría?. Explique su respuesta.
-
-
 
 #### Criterios de evaluación.
 
