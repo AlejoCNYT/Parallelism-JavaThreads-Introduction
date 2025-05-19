@@ -65,11 +65,15 @@ Con lo anterior, y con los tiempos de ejecución dados, haga una gráfica de tie
 | 500   | 3500        | Peor que con 16 y 200 hilos: demasiada fragmentación y sobrecarga. |
 
 1. Según la [ley de Amdahls](https://www.pugetsystems.com/labs/articles/Estimating-CPU-Performance-using-Amdahls-Law-619/#WhatisAmdahlsLaw?):
-	![](img/ahmdahls.png), donde _S(n)_ es el mejoramiento teórico del desempeño, _P_ la fracción paralelizable del algoritmo, y _n_ el número de hilos, a mayor _n_, mayor debería ser dicha mejora. Por qué el mejor desempeño no se logra con los 500 hilos?, cómo se compara este desempeño cuando se usan 200?.
+![](img/ahmdahls.png), donde _S(n)_ es el mejoramiento teórico del desempeño, _P_ la fracción paralelizable del algoritmo, y _n_ el número de hilos, a mayor _n_, mayor debería ser dicha mejora. Por qué el mejor desempeño no se logra con los 500 hilos?, cómo se compara este desempeño cuando se usan 200?.
+	- En la medida que n → ∞, el límite superior de la mejora está dado por 1 / (1 - P) y, desaparece la fracción. Es decir, muchos hilos no optimizan si se trata de una práctica secuencial importante y pequeña. 
+	- Se observan 500 hilos de muy alto uso, de CPU (94.7%) → congestión, mucha memoria ocupada (157 MB heap usado), con una pequeña porción de hilos activos simultáneamente (limitado por CPU) y, gasto excesivo de 	cambio de contexto (context switching).
 
 2. Cómo se comporta la solución usando tantos hilos de procesamiento como núcleos comparado con el resultado de usar el doble de éste?.
+	- La mejora de 4000 ms → 3000 ms no es lineal, sin embargo es notable. Esto se debe a que JVM o el OS podrían hacer uso del _hyperthreading_ (dos hilos por núcleo). Pero, ya empieza a notarse un rendimiento 		marginal decreciente.
 
 3. De acuerdo con lo anterior, si para este problema en lugar de 500 hilos en una sola CPU se pudiera usar 1 hilo en cada una de 500 máquinas hipotéticas, la ley de Amdahls se aplicaría mejor?. Si en lugar de esto se usaran c hilos en 500/c máquinas distribuidas (siendo c es el número de núcleos de dichas máquinas), se mejoraría?. Explique su respuesta.
+	- En este caso, la solución de Amdahl se valida puesto que no hay competencia de CPU por hilos ni nungún nodo ejecutaría _context switching_.
 
 #### Criterios de evaluación.
 
