@@ -37,13 +37,16 @@ Para este ejercicio se quiere calcular, en el menor tiempo posible, y en una sol
 A partir de lo anterior, implemente la siguiente secuencia de experimentos para calcular el millon de dígitos (hex) de PI, tomando los tiempos de ejecución de los mismos (asegúrese de hacerlos en la misma máquina):
 
 1. Un solo hilo.
-![imagen](https://github.com/user-attachments/assets/335fb455-eb88-419e-bd31-c00d242bbd5b)
+![Captura de pantalla 2025-05-19 075306](https://github.com/user-attachments/assets/8fbd0b94-0a68-4021-954f-6ab2db4c26df)
 
 2. Tantos hilos como núcleos de procesamiento (haga que el programa determine esto haciendo uso del [API Runtime](https://docs.oracle.com/javase/7/docs/api/java/lang/Runtime.html)).
+![Captura de pantalla 2025-05-19 082500](https://github.com/user-attachments/assets/93b3bca1-3cb7-46c8-b9a4-2cd30121e3da)
 
 3. Tantos hilos como el doble de núcleos de procesamiento.
+![Captura de pantalla 2025-05-19 085407](https://github.com/user-attachments/assets/d501ab87-e2f0-4883-9f1f-513778069e7f)
 
 4. 200 hilos.
+![Captura de pantalla 2025-05-19 090955](https://github.com/user-attachments/assets/ae86b225-24ad-4d8b-a5f9-ce74362e00b5)
 
 5. 500 hilos.
 
