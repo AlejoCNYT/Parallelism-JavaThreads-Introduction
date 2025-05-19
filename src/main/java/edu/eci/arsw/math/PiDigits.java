@@ -1,19 +1,16 @@
 package edu.eci.arsw.math;
 
-///  <summary>
-///  An implementation of the Bailey-Borwein-Plouffe formula for calculating hexadecimal
-///  digits of pi.
-///  https://en.wikipedia.org/wiki/Bailey%E2%80%93Borwein%E2%80%93Plouffe_formula
-///  *** Translated from C# code: https://github.com/mmoroney/DigitsOfPi ***
-///  </summary>
+/// <summary>
+/// An implementation of the Bailey-Borwein-Plouffe formula for calculating hexadecimal
+/// digits of pi.
+/// https://en.wikipedia.org/wiki/Bailey%E2%80%93Borwein%E2%80%93Plouffe_formula
+/// *** Translated from C# code: https://github.com/mmoroney/DigitsOfPi ***
+/// </summary>
 public class PiDigits {
 
     private static int DigitsPerSum = 8;
     private static double Epsilon = 1e-17;
 
-    /**
-     * Versión paralela: calcula los dígitos de pi con N hilos.
-     */
     public static byte[] getDigits(int start, int count, int N) {
         if (start < 0 || count < 0 || N <= 0) {
             throw new RuntimeException("Parámetros inválidos.");
@@ -28,8 +25,9 @@ public class PiDigits {
         for (int i = 0; i < N; i++) {
             int currentStart = start + i * digitsPerThread;
             int currentCount = (i == N - 1) ? digitsPerThread + remainder : digitsPerThread;
+            int writeIndex = i * digitsPerThread;
 
-            threads[i] = new PiThread(currentStart, currentCount, result);
+            threads[i] = new PiThread(currentStart, currentCount, result, writeIndex);
             threads[i].start();
         }
 
@@ -44,16 +42,18 @@ public class PiDigits {
         return result;
     }
 
-    /**
-     * Versión secuencial/compatibilidad: calcula los dígitos usando 1 solo hilo.
-     */
     public static byte[] getDigits(int start, int count) {
-        return getDigits(start, count, 1);
+        byte[] digits = new byte[count];
+
+        for (int i = 0; i < count; i++) {
+            double pi = 4 * (sum(1, start + i) - sum(4, start + i)
+                    - sum(5, start + i) - sum(6, start + i));
+            digits[i] = (byte) ((int) (pi) & 0xF);
+        }
+
+        return digits;
     }
 
-    /// <summary>
-    /// Returns the sum of 16^(n - k)/(8 * k + m) from 0 to k.
-    /// </summary>
     private static double sum(int m, int n) {
         double sum = 0;
         int d = m;
@@ -79,9 +79,6 @@ public class PiDigits {
         return sum;
     }
 
-    /// <summary>
-    /// Return 16^p mod m.
-    /// </summary>
     private static int hexExponentModulo(int p, int m) {
         int power = 1;
         while (power * 2 <= p) {
